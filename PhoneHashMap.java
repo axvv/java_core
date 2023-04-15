@@ -10,7 +10,6 @@ public class PhoneHashMap {
         ArrayList<String> phonesForLastName = phoneBook.getOrDefault(lastName, new ArrayList<>());
         phonesForLastName.add(phoneNumber);
         phoneBook.put(lastName, phonesForLastName);
-        System.out.println(phoneBook);
     }
 
     public static void get(String lastName) {
