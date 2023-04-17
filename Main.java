@@ -1,29 +1,19 @@
-package lesson2;
+package lesson5;
+
+import java.util.Arrays;
 
 public class Main {
 
-
     public static void main(String[] args) {
-        String[][] dimensialArray = {{"10", "20", "30", "40"}, {"10", "20", "30", "40"}, {"10", "20", "30", "40"}, {"10", "20", "30", "40"}};
 
-        String[][] dimensialArrayWrongSize = {{"30"}, {"10", "20", "30"}, {"10", "20", "30"}, {"10", "20"}, {"10", "20", "30"}};
-        String[][] dimensialArrayWrongData = {{"80", "lk", "30", "40"}, {"10", "20", "1", "40"}, {"6**", "20", "9", "40"}, {"10", "20", "30", "40"}};
-        try {
-            System.out.println(SumArrayElements.sumArrayElements(dimensialArray));
-        } catch (MyArraySizeException | MyArrayDataException e) {
-            System.out.println(e.getMessage());
-        }
-        try {
-            System.out.println(SumArrayElements.sumArrayElements(dimensialArrayWrongSize));
-        } catch (MyArraySizeException | MyArrayDataException e) {
-            System.out.println(e.getMessage());
-        }
-        try {
-            System.out.println(SumArrayElements.sumArrayElements(dimensialArrayWrongData));
-        } catch (MyArraySizeException | MyArrayDataException e) {
-            System.out.println(e.getMessage());
-        }
+        AppData appData = new AppData();
+//        создание файла из массива заголокок и массива данных
+        appData.save("homework.csv");
+//        создание массивов заголовок и массива данных из файла
+        appData.load("homework.csv");
+//      массив заголовок
+        System.out.println(Arrays.toString(appData.getHeader()));
+//      массив данных
+        System.out.println(Arrays.deepToString(appData.getData()));
     }
 }
-
-
