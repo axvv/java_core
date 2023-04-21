@@ -1,6 +1,6 @@
 package lesson1;
 
-public class Player implements CanJump,CanRun,CanPullUp,CanSwim {
+public class Player {
     private String namePlayer;
     private int age;
     private int storedEnergy;
@@ -62,23 +62,6 @@ public class Player implements CanJump,CanRun,CanPullUp,CanSwim {
     }
 
 
-    @Override
-    public void jump(int energyCosts) {
 
     }
 
-    @Override
-    public void pullUpp(int energyCosts) {
-
-    }
-
-    @Override
-    public void run(int energyCosts) {
-
-    }
-
-    @Override
-    public void swim(int energyCosts) {
-
-    }
-}

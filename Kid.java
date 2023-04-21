@@ -5,7 +5,7 @@ public class Kid extends Player implements CanJump,CanRun,CanPullUp,CanSwim {
         super(namePlayer, age, 800, 3);
     }
 
-    @Override
+
     public void jump(int energyCosts) {
         if (getStoredEnergy() < energyCosts) {
             System.out.println("Не получилось!");
@@ -17,7 +17,7 @@ public class Kid extends Player implements CanJump,CanRun,CanPullUp,CanSwim {
     }
 
 
-    @Override
+
     public void pullUpp(int energyCosts) {
         if (getStoredEnergy() < energyCosts) {
             System.out.println("Не получилось!");
@@ -29,7 +29,7 @@ public class Kid extends Player implements CanJump,CanRun,CanPullUp,CanSwim {
     }
 
 
-    @Override
+
     public void run(int energyCosts) {
         if (getStoredEnergy() < energyCosts) {
             System.out.println("Не получилось!");
@@ -40,7 +40,7 @@ public class Kid extends Player implements CanJump,CanRun,CanPullUp,CanSwim {
         }
     }
 
-    @Override
+
     public void swim(int energyCosts) {
         System.out.println("Я ребёнок, я не умею пока плавать!");
     }

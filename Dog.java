@@ -8,7 +8,7 @@ public class Dog extends Player implements CanSwim, CanJump, CanRun,CanPullUp {
     }
 
 
-    @Override
+
     public void jump(int energyCosts) {
         if (getStoredEnergy() < energyCosts) {
             System.out.println("Не получилось!");
@@ -20,7 +20,7 @@ public class Dog extends Player implements CanSwim, CanJump, CanRun,CanPullUp {
     }
 
 
-    @Override
+
     public void run(int energyCosts) {
         if (getStoredEnergy() < energyCosts) {
             System.out.println("Не получилось!");
@@ -32,7 +32,7 @@ public class Dog extends Player implements CanSwim, CanJump, CanRun,CanPullUp {
     }
 
 
-    @Override
+
     public void swim(int energyCosts) {
         if (getStoredEnergy() < energyCosts) {
             System.out.println("Не получилось!");
@@ -44,7 +44,7 @@ public class Dog extends Player implements CanSwim, CanJump, CanRun,CanPullUp {
 
     }
 
-    @Override
+
     public void pullUpp(int energyCosts) {
         System.out.println("Я собака и не умею лазить по веревочной лестнице");
     }

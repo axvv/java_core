@@ -10,7 +10,7 @@ public class Man extends Player implements CanSwim, CanJump, CanPullUp, CanRun {
 
 
 
-    @Override
+
     public void jump(int energyCosts) {
         if (getStoredEnergy() < energyCosts) {
             System.out.println("Не получилось!");
@@ -22,7 +22,7 @@ public class Man extends Player implements CanSwim, CanJump, CanPullUp, CanRun {
 
     }
 
-    @Override
+
     public void pullUpp(int energyCosts) {
         if (getStoredEnergy() < energyCosts) {
             System.out.println("Не получилось!");
@@ -34,7 +34,7 @@ public class Man extends Player implements CanSwim, CanJump, CanPullUp, CanRun {
 
     }
 
-    @Override
+
     public void run(int energyCosts) {
         if (getStoredEnergy() < energyCosts) {
             System.out.println("Не получилось!");
@@ -46,7 +46,7 @@ public class Man extends Player implements CanSwim, CanJump, CanPullUp, CanRun {
 
     }
 
-    @Override
+
     public void swim(int energyCosts) {
         if (getStoredEnergy() < energyCosts) {
             System.out.println("Не получилось!");

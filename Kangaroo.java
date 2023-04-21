@@ -7,7 +7,7 @@ public class Kangaroo extends Player implements CanJump,CanRun,CanPullUp,CanSwim
     }
 
 
-    @Override
+
     public void jump(int energyCosts) {
         if (getStoredEnergy() < energyCosts) {
             System.out.println("Не получилось!");
@@ -19,7 +19,7 @@ public class Kangaroo extends Player implements CanJump,CanRun,CanPullUp,CanSwim
 
     }
 
-    @Override
+
     public void run(int energyCosts) {
         if (getStoredEnergy() < energyCosts) {
             System.out.println("Не получилось!");
@@ -30,12 +30,12 @@ public class Kangaroo extends Player implements CanJump,CanRun,CanPullUp,CanSwim
         }
     }
 
-    @Override
+
     public void pullUpp(int energyCosts) {
         System.out.println("Я кенгуру и не умею лазить по веревочной лестнице");
     }
 
-    @Override
+
     public void swim(int energyCosts) {
         System.out.println("Я кенгуру и не умею плавать");
     }
