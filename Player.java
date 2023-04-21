@@ -7,6 +7,8 @@ public class Player {
     private int number;
 
 
+    
+    
     public Player(String namePlayer, int age, int storedEnergy, int number) {
         this.namePlayer = namePlayer;
         setAge(age);
