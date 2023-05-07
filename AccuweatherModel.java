@@ -93,8 +93,6 @@ public class AccuweatherModel implements WeatherModel {
     }
 
 
-
-
     public List<Weather> getSavedToDBWeather(String selectedCity) {
         return dataBaseRepository.getSavedToDBWeather(selectedCity);
     }
@@ -103,7 +101,7 @@ public class AccuweatherModel implements WeatherModel {
         String url = objectMapper.readTree(dayForecastWeatherResponse).get("Headline").at("/Link").asText();
         URL urlForCity = new URL(url);
         String[] segments = urlForCity.getPath().split("/");
-       String city = segments[3].substring(0, 1).toUpperCase() + segments[3].substring(1).toLowerCase();
+        String city = segments[3].substring(0, 1).toUpperCase() + segments[3].substring(1).toLowerCase();
 
 
 //                Текст прогноза
@@ -120,105 +118,106 @@ public class AccuweatherModel implements WeatherModel {
             String dateDay = segmentsDate[2].substring(0, 2);
 //                узнаём для какого месяца прогноз
             String dateMonth = segmentsDate[1];
-            if (dateMonth.equals("01")) {
-                dateMonth = "января";
-            }
-            if (dateMonth.equals("02")) {
-                dateMonth = "февраля";
-            }
-            if (dateMonth.equals("03")) {
-                dateMonth = "марта";
-            }
-            if (dateMonth.equals("04")) {
-                dateMonth = "апреля";
-            }
-            if (dateMonth.equals("05")) {
-                dateMonth = "мая";
-            }
-            if (dateMonth.equals("06")) {
-                dateMonth = "июня";
-            }
-            if (dateMonth.equals("07")) {
-                dateMonth = "июля";
-            }
-            if (dateMonth.equals("08")) {
-                dateMonth = "августа";
-            }
-            if (dateMonth.equals("09")) {
-                dateMonth = "сентября";
-            }
-            if (dateMonth.equals("10")) {
-                dateMonth = "октября";
-            }
-            if (dateMonth.equals("11")) {
-                dateMonth = "ноября";
-            }
-            if (dateMonth.equals("12")) {
-                dateMonth = "декабря";
-            }
+            switch (dateMonth) {
+                case ("01"):
+                    dateMonth = "января";
+                    break;
+                case ("02"):
+                    dateMonth = "февраля";
+                    break;
+                case ("03"):
+                    dateMonth = "марта";
+                    break;
+                case ("04"):
+                    dateMonth = "апреля";
+                    break;
+                case ("05"):
+                    dateMonth = "мая";
+                    break;
+                case ("06"):
+                    dateMonth = "июня";
+                    break;
+                case ("07"):
+                    dateMonth = "июля";
+                    break;
+                case ("08"):
+                    dateMonth = "августа";
+                    break;
+                case ("09"):
+                    dateMonth = "сентября";
+                    break;
+                case ("10"):
+                    dateMonth = "октября";
+                    break;
+                case ("11"):
+                    dateMonth = "ноября";
+                    break;
+                case ("12"):
+                    dateMonth = "декабря";
+                    }
 
 
 //                Температура воздуха из прогноза (минимальная и максимальная)
-            String minTemperature = objectMapper
-                    .readTree(dayForecastWeatherResponse)
-                    .at("/DailyForecasts")
-                    .get(i)
-                    .at("/Temperature/Minimum/Value").asText();
-            String maxTemperature = objectMapper
-                    .readTree(dayForecastWeatherResponse)
-                    .at("/DailyForecasts")
-                    .get(i)
-                    .at("/Temperature/Maximum/Value").asText();
+                    String minTemperature = objectMapper
+                            .readTree(dayForecastWeatherResponse)
+                            .at("/DailyForecasts")
+                            .get(i)
+                            .at("/Temperature/Minimum/Value").asText();
+                    String maxTemperature = objectMapper
+                            .readTree(dayForecastWeatherResponse)
+                            .at("/DailyForecasts")
+                            .get(i)
+                            .at("/Temperature/Maximum/Value").asText();
 //                единицы измерения температуры
-            String unitTemperature = objectMapper
-                    .readTree(dayForecastWeatherResponse)
-                    .at("/DailyForecasts")
-                    .get(i)
-                    .at("/Temperature/Maximum/Unit").asText();
+                    String unitTemperature = objectMapper
+                            .readTree(dayForecastWeatherResponse)
+                            .at("/DailyForecasts")
+                            .get(i)
+                            .at("/Temperature/Maximum/Unit").asText();
 
-            System.out.printf("В городе %s %s %s будет %s, минимальная температура воздуха %s%s, максимальная %s%s \n", city, dateDay, dateMonth, weatherText, minTemperature, unitTemperature, maxTemperature, unitTemperature);
+                    System.out.printf("В городе %s %s %s будет %s, минимальная температура воздуха %s%s, максимальная %s%s \n", city, dateDay, dateMonth, weatherText, minTemperature, unitTemperature, maxTemperature, unitTemperature);
 //            сохранить прогноз погоды на 1 день в базу данных
-            try {
-                dataBaseRepository.saveWeatherToDataBase(new Weather(city,dateDay,dateMonth,Double.parseDouble(minTemperature),Double.parseDouble(minTemperature)));
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
-            } catch (NumberFormatException e) {
-                throw new RuntimeException(e);
+                    try {
+                        dataBaseRepository.saveWeatherToDataBase(new Weather(city, dateDay, dateMonth, Double.parseDouble(minTemperature), Double.parseDouble(minTemperature)));
+                    } catch (SQLException e) {
+                        throw new RuntimeException(e);
+                    } catch (NumberFormatException e) {
+                        throw new RuntimeException(e);
+                    }
             }
         }
+
+
+        private String detectCityKey (String selectedCity) throws IOException {
+            HttpUrl httpUrl = new HttpUrl.Builder()
+                    .scheme(PROTOCOL)
+                    .host(BASE_HOST)
+                    .addPathSegment(LOCATIONS)
+                    .addPathSegment(VERSION)
+                    .addPathSegment(CITIES)
+                    .addPathSegment(AUTOCOMPLETE)
+                    .addQueryParameter(API_KEY_QUERY_PARAM, API_KEY)
+                    .addQueryParameter("q", selectedCity)
+                    .build();
+            Request request = new Request.Builder()
+                    .url(httpUrl)
+                    .get()
+                    .addHeader("accept", "application/json")
+                    .build();
+
+            Response response = okHttpClient.newCall(request).execute();
+            String responseString = response.body().string();
+            String cityKey = objectMapper.readTree(responseString).get(0).at("/Key").asText();
+
+            return cityKey;
+
+        }
+
+
+        public static void main (String[]args) throws IOException {
+            AccuweatherModel accuweatherModel = new AccuweatherModel();
+            UserInterfaceView userInterfaceView = new UserInterfaceView();
+
+            userInterfaceView.runInterface();
+        }
     }
-
-
-    private String detectCityKey(String selectedCity) throws IOException {
-        HttpUrl httpUrl = new HttpUrl.Builder()
-                .scheme(PROTOCOL)
-                .host(BASE_HOST)
-                .addPathSegment(LOCATIONS)
-                .addPathSegment(VERSION)
-                .addPathSegment(CITIES)
-                .addPathSegment(AUTOCOMPLETE)
-                .addQueryParameter(API_KEY_QUERY_PARAM,API_KEY)
-                .addQueryParameter("q", selectedCity)
-                .build();
-        Request request = new Request.Builder()
-                .url(httpUrl)
-                .get()
-                .addHeader("accept", "application/json")
-                .build();
-
-        Response response = okHttpClient.newCall(request).execute();
-        String responseString = response.body().string();
-        String cityKey = objectMapper.readTree(responseString).get(0).at("/Key").asText();
-
-        return cityKey;
-
-    }
-
-
-    public static void main(String[] args) throws IOException {
-        AccuweatherModel accuweatherModel = new AccuweatherModel();
-        UserInterfaceView userInterfaceView = new UserInterfaceView();
-
-        userInterfaceView.runInterface();
-    }
-}
